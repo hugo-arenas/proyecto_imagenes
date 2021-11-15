@@ -7,9 +7,9 @@ ib = 1 - ib;
 %ie = imerode(ib,se);
 ib5 = edge(ib,'Canny');
 se = strel('disk',4);
-%ie = imdilate(ib5,se);
-%ie = imerode(ie,se);
-ie = bwmorph(ib5,'bridge');
+ie = imerode(ib,se);
+ie = imdilate(ib5,se);
+ie = imerode(ie,se);
 %ie = ib - ie;
 
 figure, 

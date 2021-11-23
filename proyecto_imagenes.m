@@ -1,4 +1,4 @@
-i=imread('cancer_celulas.png');
+i=imread('datos prueba\RGB-Images\Placa1-imagen1.jpg');
 ig = rgb2gray(i);
 %umbral=graythresh(ig);
 %ib=imbinarize(ig,0.3);
@@ -11,7 +11,9 @@ ig = rgb2gray(i);
 %ie = imerode(ie,se);
 %ie = bwmorph(ib5,'bridge');
 %ie = ib - ie;
-iGT = imread('hands1-mask.png');
+iGT1 = imread('datos prueba\Acrosome-Masks\Placa1-imagen1.jpg');
+iGT2 = imread('datos prueba\Head-Masks\Placa1-imagen1.jpg');
+iGT3 = imread('datos prueba\Nucleus-Masks\Placa1-imagen1.jpg');
 
 umbral=graythresh(ig);
 iSeg=imcomplement(im2bw(ig,umbral));

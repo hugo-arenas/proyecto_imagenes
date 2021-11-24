@@ -1,6 +1,10 @@
 %i=imread('datos prueba\RGB-Images\Placa1-imagen1.jpg');
 i=imread('celulas_cancer.png');
 %i=imread('cancer\162-CPDAI-13-IDA-3-30.jpg');
+ir = i(:,:,1);
+ig = i(:,:,2);
+ib = i(:,:,3);
+icolor = 255 - (ib - fix(ir/2) - fix(ig/2));
 ig = rgb2gray(i);
 ig2 = 255 - ig;
 %se = strel('disk',3);

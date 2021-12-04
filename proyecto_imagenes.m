@@ -13,18 +13,23 @@ ib=imbinarize(icon,umbral);
 %ib=imbinarize(icon,umbral);
 se = strel('disk',4);
 ie = imerode(ib,se);
-
-%iGT1 = imread('datos prueba\Acrosome-Masks\Placa1-imagen1.jpg');
-%iGT2 = imread('datos prueba\Head-Masks\Placa1-imagen1.jpg');
-%iGT3 = imread('datos prueba\Nucleus-Masks\Placa1-imagen1.jpg');
-%umbral=graythresh(ig);
-%iSeg=imcomplement(im2bw(ig,umbral));
-%iSeg2 = imbinarize(ig,umbral);
-%sim=dice(iSeg,iGT1);
+i_f = i;
+[f,c] = size(ie);
+for x=1:c
+    for y=1:f
+        if ie(y,x) == 1
+            i_f(y,x,1) = 255;
+            i_f(y,x,2) = 0;
+            i_f(y,x,3) = 255;
+        end
+    end
+end
+sim=dice(ie,logical(i2))
 
 figure,
-subplot(1,3,1), imshow(i), title('original');
-subplot(1,3,2), imshow(ie), title('procesada'); 
+subplot(2,2,1), imshow(i), title('original');
+subplot(2,2,2), imshow(ie), title('procesada'); 
 titulo=['mascara original'];
-subplot(1,3,3), imshow(i2), title(titulo);
+subplot(2,2,3), imshow(i2), title(titulo);
+subplot(2,2,4), imshow(i_f), title('marcada');
 

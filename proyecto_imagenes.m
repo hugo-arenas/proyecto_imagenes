@@ -5,7 +5,7 @@ igreen = i(:,:,2);
 iblue = i(:,:,3);
 icolor = (255 - iblue) - ired/2 - igreen/2;
 icon = adapthisteq(icolor,'clipLimit',0.02,'Distribution','rayleigh');
-%icon = imlocalbrighten(icon,0.2);
+icon = imlocalbrighten(icon,0.2);
 umbral=graythresh(icon);
 ib=imbinarize(icon,umbral);
 
@@ -24,7 +24,7 @@ for x=1:c
         end
     end
 end
-sim=dice(ie,logical(i2))
+sim=jaccard(ie,logical(i2))
 
 figure,
 subplot(2,2,1), imshow(i), title('original');

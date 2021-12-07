@@ -4,13 +4,10 @@ ired = i(:,:,1);
 igreen = i(:,:,2);
 iblue = i(:,:,3);
 icolor = (255 - iblue) - ired/2 - igreen/2;
-icon = adapthisteq(icolor,'clipLimit',0.02,'Distribution','rayleigh');
-icon = imlocalbrighten(icon,0.2);
+icon2 = adapthisteq(icolor,'clipLimit',0.02,'Distribution','rayleigh');
+icon = imlocalbrighten(icon2,0.2);
 umbral=graythresh(icon);
 ib=imbinarize(icon,umbral);
-
-%umbral=adaptthresh(icon,'NeighborhoodSize',[5 5]);
-%ib=imbinarize(icon,umbral);
 se = strel('disk',4);
 ie = imerode(ib,se);
 i_f = i;
@@ -24,7 +21,7 @@ for x=1:c
         end
     end
 end
-sim=jaccard(ie,logical(i2))
+sim=dice(ie,logical(i2))
 
 figure,
 subplot(2,2,1), imshow(i), title('original');

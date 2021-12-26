@@ -5,10 +5,10 @@
 %             MATEO SEPÚLVEDA
 %##########################################################################
 %Se lee la imagen original a evaluar.
-i=imread('datosPrueba\imgs\2+_9_400_600_400_600.png');
+i=imread('datosPrueba\imgs\3+_16_0_200_400_600.png');
 
 %Se lee la imagen correspondiente a la máscara de segmentación.
-i2=imread('datosPrueba\masks\2+_9_mask_400_600_400_600.png');
+i2=imread('datosPrueba\masks\3+_16_mask_0_200_400_600.png');
 
 %Se extraen los canales de colores de la imagen original.
 %Se extrae el canal rojo.
@@ -39,24 +39,19 @@ ibright = imlocalbrighten(icon,0.2);
 se = strel('diamond',1);
 ie = imerode(ibright,se);
 
-%Se crea una máscara de forma de disco de tamaño 1 y luego, usándola, se
-%aplica una clausura sobre la imagen preprocesada anterior.
-se2 = strel('disk',1);
-ie2 = imclose(ie,se2);
-
 %Para obtener la segmentación, se utiliza el método de la segmentación
 %por umbralización. Para ello, se obtiene la máscara de umbralización con 2
 %divisiones de intensidad.
-umbrales=multithresh(ie2,2);
+umbrales=multithresh(ie,2);
 
 %Luego, se aplica la segmentación con la máscara de umbrales obtenida.
-seg_I=imquantize(ie2,umbrales);
+seg_I=imquantize(ie,umbrales);
 
 %Se realiza una copia de la imagen original de entrada.
 i_f = i;
 
 %Se extrae el largo y ancho de la imagen erosionada.
-[f,c] = size(ie2);
+[f,c] = size(ie);
 
 %Se crea una máscara resultante de ceros del largo y ancho extraida.
 mask_result = zeros(f,c);

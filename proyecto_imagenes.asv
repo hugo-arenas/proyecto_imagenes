@@ -91,11 +91,10 @@ end
 %segmentación.
 sim=dice(logical(mask_result),logical(i2))
 
-%Se muestran las imágenes por pantalla de la imagen original, la máscara
-%original de segmentación, las máscara procesada y el resultado, que
-%corresponde a la imagen original con la máscara superpuesta en púrpura.
+%Se muestran las imágenes por pant
 figure,
 subplot(2,2,1), imshow(i), title('original');
 subplot(2,2,2), imshow(i2), title('máscara original'); 
 subplot(2,2,3), imshow(mask_result), title('mascara procesada');
 subplot(2,2,4), imshow(i_f), title('resultado');
+

@@ -5,10 +5,10 @@
 %             MATEO SEPÚLVEDA
 %##########################################################################
 %Se lee la imagen original a evaluar.
-i=imread('datosPrueba\imgs\2+_8_400_600_800_1000.png');
+i=imread('datosPrueba\imgs\2+_9_400_600_400_600.png');
 
 %Se lee la imagen correspondiente a la máscara de segmentación.
-i2=imread('datosPrueba\masks\2+_8_mask_400_600_800_1000.png');
+i2=imread('datosPrueba\masks\2+_9_mask_400_600_400_600.png');
 
 %Se extraen los canales de colores de la imagen original.
 %Se extrae el canal rojo.
@@ -27,42 +27,36 @@ icolor = (255 - iblue) - ired/4 - igreen/4;
 
 %Se realiza un contraste adaptativo para destacar las partes con menor
 %intensidad.
-icon2 = adapthisteq(icolor,'clipLimit',0.1,'Distribution','rayleigh');
+icon = adapthisteq(icolor,'clipLimit',0.1,'Distribution','rayleigh');
 
 %Se mejora el brillo de la imagen contrastada.
-icon = imlocalbrighten(icon2,0.2);
+ibright = imlocalbrighten(icon,0.2);
 
-%Para eliminar parte secciones de la imagen preprocesada que se consideran
-%sobrante, se utilizan morfologías para erosionar.
-%Se crea una máscara de forma de diamante de tamaño 1 y luego, usandola, se
+%Para eliminar secciones de la imagen preprocesada que se consideran
+%sobrantes, se utilizan morfologías para eliminarlas.
+%Se crea una máscara de forma de diamante de tamaño 1 y luego, usándola, se
 %aplica una erosión sobre la imagen preprocesada.
-se2 = strel('diamond',1);
-ie2 = imerode(icon,se2);
+se = strel('diamond',1);
+ie = imerode(ibright,se);
 
-%Se crea una máscara de forma de disco de tamaño 1 y luego, usandola, se
-%aplica una erosión y luego una apertura sobre la imagen preprocesada 
-%anterior.
-se = strel('disk',1);
-ie = imerode(ie2,se);
-ie = imopen(ie2,se);
+%Se crea una máscara de forma de disco de tamaño 1 y luego, usándola, se
+%aplica una clausura sobre la imagen preprocesada anterior.
+se2 = strel('disk',1);
+ie2 = imclose(ie,se2);
 
-%Para obtener la segmentación, se utilizada el método de la segmentación
+%Para obtener la segmentación, se utiliza el método de la segmentación
 %por umbralización. Para ello, se obtiene la máscara de umbralización con 2
 %divisiones de intensidad.
-umbrales=multithresh(ie,2);
+umbrales=multithresh(ie2,2);
 
 %Luego, se aplica la segmentación con la máscara de umbrales obtenida.
-seg_I=imquantize(ie,umbrales);
-
-%Finalmente, dado que el resultado anterior es de tipo label, se pasa a
-%rgb.
-regiones=label2rgb(seg_I);
+seg_I=imquantize(ie2,umbrales);
 
 %Se realiza una copia de la imagen original de entrada.
 i_f = i;
 
 %Se extrae el largo y ancho de la imagen erosionada.
-[f,c] = size(ie);
+[f,c] = size(ie2);
 
 %Se crea una máscara resultante de ceros del largo y ancho extraida.
 mask_result = zeros(f,c);
